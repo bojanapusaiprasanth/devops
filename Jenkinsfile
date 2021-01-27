@@ -58,7 +58,7 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-          nexusArtifactUploader artifacts: [[artifactId: 'Address', classifier: '', file: 'Address Book Declarative Pipeline/target/addressbook.war', type: '.war']], credentialsId: 'Nexus', groupId: 'Address', nexusUrl: 'nexus.sidhuco.in', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
+          nexusArtifactUploader artifacts: [[artifactId: 'Address', classifier: '', file: 'target/*.war', type: '.war']], credentialsId: 'Nexus', groupId: 'Address', nexusUrl: 'nexus.sidhuco.in', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
         }
       }
       stage('Deploy package') {
