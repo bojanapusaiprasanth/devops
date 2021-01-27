@@ -8,6 +8,7 @@ pipeline {
       stage('Git Repo details') {
         steps {
           git credentialsId: '9e853457-efea-4b6d-af63-e44e63f3c7c0', url: 'https://github.com/bojanapusaiprasanth/devops.git'
+          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9e853457-efea-4b6d-af63-e44e63f3c7c0', url: 'https://github.com/bojanapusaiprasanth/devops.git']]])
         }
       }
       stage('Compile the Code') {
