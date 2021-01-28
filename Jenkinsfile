@@ -4,9 +4,6 @@ pipeline {
       maven 'My Maven'
       jdk 'My Java'
     }
-    environment {
-      PROJECT_VERSION = sh 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout'
-    }
     stages {
       stage('Git Repo details') {
         steps {
@@ -67,20 +64,23 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-          nexusArtifactUploader artifacts: [
-              [artifactId: 'addressbook',
-               classifier: '',
-                file: 'target/addressbook.war',
-                 type: 'war'
-                 ]
-         ],
-          credentialsId: 'Nexus',
-           groupId: 'com.edurekademo.tutorial',
-            nexusUrl: 'nexus.sidhuco.in',
-             nexusVersion: 'nexus3',
-              protocol: 'http',
-               repository: 'addressbook',
-                version: "${PROJECT_VERSION}"
+          script {
+            def mavenPom = readMavenPom 'pom.xml'
+            nexusArtifactUploader artifacts: [
+                [artifactId: 'addressbook',
+                 classifier: '',
+                  file: 'target/addressbook.war',
+                   type: 'war'
+                   ]
+           ],
+            credentialsId: 'Nexus',
+             groupId: 'com.edurekademo.tutorial',
+              nexusUrl: 'nexus.sidhuco.in',
+               nexusVersion: 'nexus3',
+                protocol: 'http',
+                 repository: 'addressbook',
+                  version: "${mavenPom.version}"
+          }
         }
       }
       stage('Deploy package') {
