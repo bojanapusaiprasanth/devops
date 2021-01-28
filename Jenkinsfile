@@ -64,6 +64,7 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
+        def mavenPom = readMavenPom 'pom.xml'
           nexusArtifactUploader artifacts: [
               [artifactId: 'addressbook',
                classifier: '',
@@ -77,7 +78,7 @@ pipeline {
              nexusVersion: 'nexus3',
               protocol: 'http',
                repository: 'addressbook',
-                version: '1.0.0'
+                version: "${mavenPom.version}"
         }
       }
       stage('Deploy package') {
