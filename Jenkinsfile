@@ -1,3 +1,6 @@
+
+def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout',
+ returnStdout: true
 pipeline {
     agent any
     tools {
@@ -64,9 +67,6 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-          script {
-            def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-          }
           nexusArtifactUploader artifacts: [
               [artifactId: 'addressbook',
                classifier: '',
