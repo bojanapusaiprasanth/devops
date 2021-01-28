@@ -5,10 +5,9 @@ pipeline {
       jdk 'My Java'
     }
     stages {
-      stage('Git Repo details') {
+      stage('Git SCM') {
         steps {
-          git credentialsId: '9e853457-efea-4b6d-af63-e44e63f3c7c0', url: 'https://github.com/bojanapusaiprasanth/devops.git'
-          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9e853457-efea-4b6d-af63-e44e63f3c7c0', url: 'https://github.com/bojanapusaiprasanth/devops.git']]])
+          git credentialsId: 'Gitcredentials', url: 'https://github.com/bojanapusaiprasanth/devops.git'
         }
       }
       stage('Compile the Code') {
@@ -57,6 +56,13 @@ pipeline {
           }
         }
       }
+      stage('SonarQube Analysis') {
+        steps {
+          withSonarQubeEnv('mysonarqube') {
+            sh 'mvn sonar:sonar'
+          }
+        }
+      }
       stage('Build Package') {
         steps {
           sh 'mvn package'
@@ -93,7 +99,7 @@ pipeline {
           }
         }
         steps {
-          deploy adapters: [tomcat8(credentialsId: '13d9979a-9a5d-45d5-8258-9d8d1cf8f7b2', path: '', url: 'http://tomcat.sidhuco.in/')], contextPath: null, onFailure: false, war: '**/*.war'
+          deploy adapters: [tomcat8(credentialsId: 'tomcat', path: '', url: 'http://tomcat.sidhuco.in/')], contextPath: null, onFailure: false, war: '**/*.war'
         }
       }
     }
