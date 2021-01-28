@@ -4,6 +4,9 @@ pipeline {
       maven 'My Maven'
       jdk 'My Java'
     }
+    environment {
+      PROJECT_VERSION = sh 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout'
+    }
     stages {
       stage('Git Repo details') {
         steps {
@@ -64,9 +67,6 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-          environment {
-            PROJECT_VERSION = sh 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout'
-          }
           nexusArtifactUploader artifacts: [
               [artifactId: 'addressbook',
                classifier: '',
