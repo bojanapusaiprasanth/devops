@@ -61,6 +61,11 @@ pipeline {
         steps {
           sh 'mvn package'
         }
+        post {
+          always {
+            archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+          }
+        }
       }
       stage('Push Artifact To NEXUS') {
         steps {
@@ -95,4 +100,3 @@ pipeline {
       }
     }
 }
-
