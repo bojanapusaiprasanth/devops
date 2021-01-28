@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+      VERSION = readMavenPom().getVersion()
+    }
     tools {
       maven 'My Maven'
       jdk 'My Java'
@@ -64,9 +67,6 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-          script {
-            def mavenPom = readMavenPom 'pom.xml'
-          }
           nexusArtifactUploader artifacts: [
               [artifactId: 'addressbook',
                classifier: '',
@@ -80,7 +80,7 @@ pipeline {
              nexusVersion: 'nexus3',
               protocol: 'http',
                repository: 'addressbook',
-                version: "${mavenPom.version}"
+                version: "${VERSION}"
         }
       }
       stage('Deploy package') {
