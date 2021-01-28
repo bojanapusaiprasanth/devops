@@ -64,7 +64,9 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-         def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+          script {
+            def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+          }
           nexusArtifactUploader artifacts: [
               [artifactId: 'addressbook',
                classifier: '',
