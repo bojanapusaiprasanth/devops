@@ -42,7 +42,18 @@ pipeline {
         }
         post {
           always {
-            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: '**/target/site/cobertura/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+            cobertura autoUpdateHealth: false,
+             autoUpdateStability: false,
+              coberturaReportFile: '**/target/site/cobertura/coverage.xml',
+               conditionalCoverageTargets: '70, 0, 0',
+                failUnhealthy: false,
+                 failUnstable: false,
+                  lineCoverageTargets: '80, 0, 0',
+                   maxNumberOfBuilds: 0,
+                    methodCoverageTargets: '80, 0, 0',
+                     onlyStable: false,
+                      sourceEncoding: 'ASCII',
+                       zoomCoverageChart: false
           }
         }
       }
@@ -53,7 +64,20 @@ pipeline {
       }
       stage('Push Artifact To NEXUS') {
         steps {
-          nexusArtifactUploader artifacts: [[artifactId: 'Address', classifier: '', file: 'Address Book Declarative Pipeline/target/addressbook.war', type: '.war']], credentialsId: 'Nexus', groupId: 'Address', nexusUrl: 'nexus.sidhuco.in', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
+          nexusArtifactUploader artifacts: [
+              [artifactId: 'addressbook',
+               classifier: '',
+                file: 'target/addressbook-1.0.0.war',
+                 type: 'war'
+                 ]
+         ],
+          credentialsId: 'Nexus',
+           groupId: 'com.edurekademo.tutorial',
+            nexusUrl: 'nexus.sidhuco.in',
+             nexusVersion: 'nexus3',
+              protocol: 'http',
+               repository: 'addressbook',
+                version: '1.0.0'
         }
       }
       stage('Deploy package') {
