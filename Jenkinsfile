@@ -65,7 +65,7 @@ pipeline {
       stage('Push Artifact To NEXUS') {
         steps {
           script {
-            def mavenPom = readMavenPom 'pom.xml'
+            def mavenPom = readMavenPom file: 'pom.xml'
             nexusArtifactUploader artifacts: [
                 [artifactId: 'addressbook',
                  classifier: '',
