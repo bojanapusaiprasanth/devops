@@ -61,18 +61,13 @@ pipeline {
         steps {
           sh 'mvn package'
         }
-        post {
-          always {
-            archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
-          }
-        }
       }
       stage('Push Artifact To NEXUS') {
         steps {
           nexusArtifactUploader artifacts: [
               [artifactId: 'addressbook',
                classifier: '',
-                file: 'target/addressbook-1.0.0.war',
+                file: 'target/addressbook.war',
                  type: 'war'
                  ]
          ],
@@ -100,3 +95,4 @@ pipeline {
       }
     }
 }
+
