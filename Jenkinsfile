@@ -8,7 +8,6 @@ pipeline {
       stage('Git SCM') {
         steps {
           git credentialsId: 'Gitcredentials', url: 'https://github.com/bojanapusaiprasanth/devops.git'
-          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Gitcredentials', url: 'https://github.com/bojanapusaiprasanth/devops.git']]])
         }
       }
       stage('Compile the Code') {
